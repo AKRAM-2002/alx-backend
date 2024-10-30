@@ -5,6 +5,7 @@ from base_caching import BaseCaching
 from collections import OrderedDict
 from functools import lru_cache
 
+
 class LRUCache(BaseCaching):
     '''
     LIFO (Last In, First Out) Cache Implementation
@@ -12,10 +13,10 @@ class LRUCache(BaseCaching):
     retrieving items from a dictionary with a LIFO
     removal mechanism when the limit is reached
     '''
+
     def __init__(self):
         super().__init__()
         self.usedKey = []
-    
 
     def put(self, key, item):
         '''
@@ -32,7 +33,7 @@ class LRUCache(BaseCaching):
                 discard = self.usedKeys.pop(0)
                 del self.cache_data[discard]
                 print('DISCARD: {:s}'.format(discard))
-        
+
     def get(self, key):
         '''
         Retrieve an item from the cache with a given key.
