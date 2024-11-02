@@ -2,7 +2,7 @@
 '''
 0. Simple helper function
 '''
-from typing import Tuple, List
+from typing import Tuple, List, Dict, Any
 import csv
 import math
 
@@ -38,30 +38,29 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        '''
-        Returns a paginated dataset of popular baby names.
-        '''
-        assert isinstance(page, type(page_size)) == int
-        assert page > 0 and page_size > 0
+        """Returns a page of the dataset based on page and page_size."""
+        assert isinstance(page, int) and page > 0
+        assert isinstance(page_size, int) and page_size > 0
 
-        start, end = index_range(page, page_size)
-        data = self.dataset()
-        print(start, end)
+        start_index, end_index = index_range(page, page_size)
 
-        return data[start:end] if start < len(data) else []
+        dataset = self.dataset()
+        if start_index >= len(dataset):
+            return []  # Return an empty list if out of range
+        return dataset[start_index:end_index]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
-        """Retrieves information about a page.
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
+        """Returns a dictionary with pagination metadata.
         """
         page_data = self.get_page(page, page_size)
         start, end = index_range(page, page_size)
-        total_pages = math.ceil(len(self.__dataset) / page_size)
+        total_pages = math.ceil(len(self.dataset()) / page_size)
         page_info = {
             'page_size': len(page_data),
             'page': page,
             'data': page_data,
-            'next_page': page + 1 if end < len(self.__dataset) else None,
-            'prev_page': page - 1 if start > 0 else None,
+            'next_page': page + 1 if page < total_pages else None,
+            'prev_page': page - 1 if page > 1 else None,
             'total_pages': total_pages,
         }
         return page_info
