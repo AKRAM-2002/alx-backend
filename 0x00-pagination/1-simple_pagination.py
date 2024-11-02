@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-0. Simple helper function
+1. Simple pagination
 '''
 from typing import Tuple, List
 import csv
