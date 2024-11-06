@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 '''
-0. Basic Flask app Module
+0. 2. Get locale from request Module
 '''
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_babel import Babel
 
 app = Flask(__name__)
@@ -19,6 +19,14 @@ class Config():
 
 app.config.from_object(Config)
 babel = Babel(app)
+
+
+@babel.localeselector
+def get_locale():
+    '''
+    Get locale
+    '''
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/')
