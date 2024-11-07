@@ -67,7 +67,7 @@ def get_timezone() -> str:
     if not timezone and g.user:
         timezone = g.user['timezone']
     try:
-        return pytz.timezone(timezone).zone
+        print(pytz.timezone(timezone).zone)
     except pytz.exceptions.UnknownTimeZoneError:
         return app.config['BABEL_DEFAULT_TIMEZONE']
 
@@ -81,3 +81,4 @@ def get_index() -> str:
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+    get_timezone()
