@@ -15,18 +15,18 @@ client.on('error', (err) => {
 // Function to set a hash in Redis
 function setNewHash() {
     const key = 'ALX';
-    const hashValues = {
-        Portland: '50',
-        Seattle: '80',
-        'New York': '20',
-        Bogota: '20',
-        Cali: '40',
-        Paris: '2',
+    const cities = {
+        Portland: 50,
+        Seattle: 80,
+        'New York': 20,
+        Bogota: 20,
+        Cali: 40,
+        Paris: 2,
     };
 
-    for (const field in hashValues) {
-        client.hset(key, field, hashValues[field], redis.print);
-    }
+    Object.entries(cities).forEach(([city, value]) => {
+        client.hset(key, city, value, redis.print);
+    });
 }
 
 // Function to display the hash from Redis

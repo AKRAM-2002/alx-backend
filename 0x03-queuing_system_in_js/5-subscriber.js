@@ -13,15 +13,13 @@ client.on('error', (err) => {
 });
 
 
-function publishMessage(message, time){
-    return new Promise((resolve) => setTimeout(
-        console.log('About to send MESSAGE')
-    ), time)
-}
+client.subscribe('ALXChannel');
 
+client.on('message', (channel, message) => {
+	console.log(message);
 
-
-publishMessage("ALX Student #1 starts course", 100);
-publishMessage("ALX Student #2 starts course", 200);
-publishMessage("KILL_SERVER", 300);
-publishMessage("ALX Student #3 starts course", 400);
+	if(message === 'KILL_SERVER') {
+		client.unsubscribe(channel);
+		client.quit();
+	}
+});
